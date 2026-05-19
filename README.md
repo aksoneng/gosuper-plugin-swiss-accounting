@@ -1,36 +1,9 @@
-# swiss-accounting
+# gosuper-plugin-swiss-accounting (archived)
 
-2 AI skills pour la comptabilité PME suisse (Sàrl/GmbH/SA/RI) :
+This repo is **archived**. The plugin source has moved to the monorepo:
 
-- **swiss-accounting-hledger** — Tenir ses livres en hledger (plain-text, Git-versionable), conforme au CO 957-963. Couvre le setup, le plan comptable KMU, les opérations quotidiennes (ventes, achats, salaires AVS/AI/APG/AC/LPP/LAA), la TVA (méthode effective + forfaitaire SSS), et la clôture annuelle (amortissements AFC, provisions, bilan + PP + annexe).
-- **swiss-accounting-invoice** — Générer des factures PDF conformes (CO 957a, OTVA art. 26) avec QR-facture suisse optionnelle. Multi-langue FR/DE/IT/EN, multi-devises avec mention BNS, taux séparés 8.1 %/2.6 %/3.8 %/0 %, reverse charge UE, export 0 %.
+→ **https://github.com/aksoneng/gosuper-plugins/tree/main/plugins/swiss-accounting**
 
-Conçu pour le fondateur ou la fondatrice qui tient ses propres livres et veut un système reproductible, exportable vers une fiduciaire pour la déclaration fiscale.
+Existing Claude Code installs that already point here will continue to work for a few weeks while we transition. New installs and updates go through the new marketplace URL — no action required on your side, your GoSuper license link auto-resolves to the right repo.
 
-## Installation
-
-C'est un **bundle payant** — l'accès est gating par licence achetée sur [gosuper.ai](https://gosuper.ai).
-
-Après réception de ton lien de licence, dans Claude Code ou Claude Desktop :
-
-```
-/plugin marketplace add gosuper.ai/m/<ta-clé>
-/plugin install swiss-accounting@gosuper
-```
-
-Puis redémarrer Claude. Les skills se chargent automatiquement quand tu poses une question de compta suisse (TVA, salaires, écritures, facture, QR-bill, etc.).
-
-## Prérequis
-
-```bash
-# Tenue de comptes
-brew install hledger
-
-# Génération de factures (PDF + QR-bill optionnel)
-brew install node
-npm install puppeteer swissqrbill
-```
-
-## Support
-
-hello@gosuper.ai
+Questions: hello@gosuper.ai
