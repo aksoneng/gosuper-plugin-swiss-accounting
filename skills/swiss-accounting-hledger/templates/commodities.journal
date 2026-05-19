@@ -1,0 +1,34 @@
+; ────────────────────────────────────────────────────────────
+;  commodities.journal
+;  Définition des devises pour PME suisse
+; ────────────────────────────────────────────────────────────
+
+; Format suisse : apostrophe pour les milliers, point pour les décimales
+commodity CHF 1'000.00
+commodity EUR 1'000.00
+commodity USD 1'000.00
+commodity GBP 1'000.00
+
+; Devise par défaut
+D CHF 1'000.00
+
+; ────────────────────────────────────────────────────────────
+;  Taux de change BNS (https://data.snb.ch)
+;  Charger uniquement les dates clés :
+;    - 01.01 de chaque année (cours de clôture précédente)
+;    - 31.12 de chaque année (cours de clôture courante)
+;    - Dates intermédiaires si transactions significatives
+; ────────────────────────────────────────────────────────────
+
+; Cours BNS au 01.01.2025 (= cours de clôture 31.12.2024)
+P 2025-01-01 EUR CHF 0.9408
+P 2025-01-01 USD CHF 0.9069
+P 2025-01-01 GBP CHF 1.1356
+
+; Cours BNS au 31.12.2025
+P 2025-12-31 EUR CHF 0.9412
+P 2025-12-31 USD CHF 0.8870
+P 2025-12-31 GBP CHF 1.1290
+
+; Pour la conversion historique, hledger utilise le @ ou @@ dans chaque transaction.
+; Ces directives P servent surtout au reporting -V (valeur courante).

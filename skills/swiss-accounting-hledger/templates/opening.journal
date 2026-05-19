@@ -1,0 +1,47 @@
+; ────────────────────────────────────────────────────────────
+;  opening.journal — Bilan d'ouverture {YEAR}
+;
+;  Cas 1 : nouvelle Sàrl
+;    → utiliser le PV de constitution et la décision de capital
+;    → capital social déposé sur compte de consignation
+;    → après inscription RC, transférer vers compte courant
+;
+;  Cas 2 : reprise d'exercice (entreprise existante)
+;    → utiliser le bilan de clôture précédent
+;    → ou générer automatiquement via :
+;        hledger -f {YEAR_PREV}/main.journal close -p {YEAR_PREV} \
+;          --close-acct='equity:retained:current' \
+;          > {YEAR}/opening.journal
+; ────────────────────────────────────────────────────────────
+
+; ═══════ Exemple Cas 1 — Nouvelle Sàrl ═══════
+;
+; 2025-03-15 * Constitution Sàrl — Dépôt capital sur compte consignation
+;     assets:current:capital-deposit                  CHF 20'000.00
+;     equity:capital:paid-in                         CHF -20'000.00
+;
+; 2025-03-25 * Inscription au RC — Libération capital
+;     assets:current:bank:ubs                         CHF 20'000.00
+;     assets:current:capital-deposit                 CHF -20'000.00
+
+; ═══════ Exemple Cas 2 — Reprise d'exercice ═══════
+;
+; 2025-01-01 * Ouverture de l'exercice (= bilan clôture 31.12.2024)
+;     ; Actifs
+;     assets:current:bank:ubs                          CHF 18'450.00
+;     assets:current:bank:revolut                      CHF 1'230.00
+;     assets:current:receivables:trade                 CHF 4'800.00
+;     assets:non-current:tangible:it                   CHF 6'000.00
+;     assets:non-current:tangible:depreciation        CHF -2'400.00
+;
+;     ; Passifs
+;     liabilities:current:payables:trade              CHF -1'200.00
+;     liabilities:current:vat:settlement              CHF -2'100.00
+;     liabilities:current:tax-provision               CHF -3'500.00
+;
+;     ; Fonds propres
+;     equity:capital                                 CHF -20'000.00
+;     equity:legal-reserve                              CHF -750.00
+;     equity:retained:prior-years                       (équilibre auto)
+
+; → Remplacer par tes propres valeurs et décommenter

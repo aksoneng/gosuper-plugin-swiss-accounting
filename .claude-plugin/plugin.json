@@ -1,0 +1,24 @@
+{
+  "name": "swiss-accounting",
+  "description": "Comptabilité PME suisse en hledger (CO 957-963) + générateur de factures conforme (CO 957a / OTVA art. 26) avec QR-bill suisse optionnel. Setup, opérations quotidiennes, salaires AVS/AI/APG/AC/LPP/LAA, TVA effective + SSS forfaitaire, clôture annuelle, multi-devises BNS, FR/DE/IT/EN.",
+  "version": "1.1.0",
+  "author": {
+    "name": "GoSuper",
+    "email": "hello@gosuper.ai",
+    "url": "https://gosuper.ai"
+  },
+  "homepage": "https://gosuper.ai",
+  "license": "Proprietary",
+  "keywords": [
+    "swiss-accounting",
+    "hledger",
+    "vat",
+    "mwst",
+    "qr-bill",
+    "invoice",
+    "pme",
+    "sarl",
+    "gmbh",
+    "co-957"
+  ]
+}

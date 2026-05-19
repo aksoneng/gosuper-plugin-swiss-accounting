@@ -1,0 +1,169 @@
+# ────────────────────────────────────────────────────────────
+#  ubs.rules — Import CSV UBS Business
+#
+#  Format CSV UBS Business (export depuis e-banking) :
+#  Colonnes typiques (FR/EN, varie selon version) :
+#    Évaluation,Date de transaction,Description,
+#    Devise,Débit,Crédit,Solde
+#
+#  Usage :
+#    hledger import --rules-file rules/ubs.rules <YEAR>/raw/ubs-<MONTH>.csv
+#
+#  Tips :
+#    - Toujours vérifier le séparateur (souvent ; en FR)
+#    - Encoding parfois Latin-1 → convertir en UTF-8 avant import
+#    - Garder les CSV bruts dans <YEAR>/raw/ pour traçabilité
+# ────────────────────────────────────────────────────────────
+
+# Skipper l'en-tête
+skip 1
+
+# Séparateur
+separator ;
+
+# Format de date (jj.mm.aaaa)
+date-format %d.%m.%Y
+
+# Champs (à adapter selon export UBS exact)
+fields date, _, description, currency, amount-out, amount-in, _
+
+# Compte cible par défaut
+account1 assets:current:bank:ubs
+
+# Compte de contrepartie temporaire (à éditer manuellement après import)
+account2 expenses:office:uncategorized
+
+# Devise (UBS exporte CHF, EUR, USD séparément)
+currency CHF
+
+# Description et commentaire
+description %description
+comment imported from ubs csv
+
+# ─── Règles de catégorisation automatique ───
+# Format : if MATCH \n  account2 SOURCE ACCOUNT
+
+# Frais bancaires UBS
+if
+% Frais
+% Geb.hren
+% Fee
+  account2 expenses:financial:bank-fees
+
+# Virements salaires sortants (à adapter avec le nom de tes employés)
+if
+% Salaire Marie Dupont
+% Salaire Pierre Martin
+  account2 expenses:salaries:gross
+
+# Cotisations sociales — caisses
+if
+% Caisse cantonale de compensation
+% CSC
+% AVS
+  account2 liabilities:current:social:avs
+
+if
+% Swiss Life
+% AXA Winterthur
+% LPP
+  account2 liabilities:current:social:lpp
+
+if
+% Suva
+% LAA
+  account2 liabilities:current:social:laa
+
+if
+% Allocations familiales
+% CAFAM
+  account2 liabilities:current:social:family
+
+# TVA / ESTV
+if
+% ESTV
+% AFC TVA
+% Administration f.d.rale des contributions
+  account2 liabilities:current:vat:settlement
+
+# Impôts directs
+if
+% Office des impôts
+% Service cantonal des contributions
+% Impôt cantonal
+% IFD
+  account2 liabilities:current:tax-provision
+
+# Loyer (à adapter avec ton bailleur)
+if
+% R.gie
+% Bailleur
+% Loyer
+  account2 expenses:occupancy:rent
+
+# Assurances
+if
+% Helvetia
+% Bâloise
+% Vaudoise Assurances
+% Zurich Assurance
+  account2 expenses:insurance:property
+
+# Téléphone / internet (à adapter)
+if
+% Swisscom
+% Salt
+% Sunrise
+% Init7
+  account2 expenses:office:phone
+
+# Hébergement et SaaS
+if
+% Google
+% Adobe
+% Microsoft
+% Notion
+% Slack
+  account2 expenses:office:software
+
+# Restaurants / repas (à booker en travel:meals si mission)
+if
+% Restaurant
+% Migros Restaurant
+% Coop Restaurant
+  account2 expenses:travel:meals
+
+# Carburant (si véhicule société)
+if
+% Shell
+% BP
+% Esso
+% Migrol
+% Tamoil
+  account2 expenses:vehicle:fuel
+
+# Trains et transport
+if
+% SBB
+% CFF
+% TPG
+% TL
+% FFS
+  account2 expenses:travel:transport
+
+# Virements internes vers Revolut / PostFinance (à confirmer manuellement)
+if
+% Revolut
+  account2 assets:current:bank:revolut
+
+if
+% PostFinance
+  account2 assets:current:bank:postfinance
+
+# ─── Ajouter tes propres règles par client/fournisseur ───
+# Exemple :
+# if
+# % Acme SA
+# % ACME-INVOICE
+#   account2 assets:current:receivables:trade
+#   comment client:acme-sa

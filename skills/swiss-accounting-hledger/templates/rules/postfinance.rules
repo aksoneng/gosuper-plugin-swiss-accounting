@@ -1,0 +1,154 @@
+# ────────────────────────────────────────────────────────────
+#  postfinance.rules — Import CSV PostFinance Business
+#
+#  Format CSV PostFinance (export depuis e-finance) :
+#  Colonnes typiques :
+#    Date,Avis de débit/crédit,Notification,Crédit,Débit,Solde,Devise
+#
+#  PostFinance propose deux exports :
+#    - CSV simple (utilisé ici)
+#    - CAMT.053 XML (plus riche, nécessite parsing dédié)
+#
+#  Usage :
+#    hledger import --rules-file rules/postfinance.rules <YEAR>/raw/postfinance-<MONTH>.csv
+#
+#  Note : PostFinance exporte parfois avec un en-tête de 5 lignes
+#  contenant les infos du compte. Toujours vérifier.
+# ────────────────────────────────────────────────────────────
+
+# Skipper l'en-tête (peut être 1 ou 5 lignes selon version)
+skip 5
+
+# Séparateur (souvent ; en CSV FR, parfois , en EN)
+separator ;
+
+# Format de date (aaaa-mm-jj pour PostFinance moderne, ou jj.mm.aaaa)
+date-format %Y-%m-%d
+
+# Champs (à adapter selon export PostFinance exact)
+fields date, _, description, amount-in, amount-out, _, currency
+
+# Compte cible
+account1 assets:current:bank:postfinance
+
+# Compte de contrepartie temporaire
+account2 expenses:office:uncategorized
+
+# Devise
+currency CHF
+
+# Description
+description %description
+comment imported from postfinance csv
+
+# ─── Règles de catégorisation automatique ───
+
+# Frais PostFinance
+if
+% Frais
+% Geb.hren
+% Tenue de compte
+  account2 expenses:financial:bank-fees
+
+# Versement salaires (à adapter)
+if
+% Salaire
+  account2 expenses:salaries:gross
+
+# AVS / Caisse de compensation
+if
+% Caisse cantonale de compensation
+% CSC
+% AVS
+  account2 liabilities:current:social:avs
+
+# LPP
+if
+% Swiss Life
+% AXA Winterthur
+% PUBLICA
+% LPP
+  account2 liabilities:current:social:lpp
+
+# Suva / LAA
+if
+% Suva
+% SUVA
+% LAA
+  account2 liabilities:current:social:laa
+
+# TVA / ESTV
+if
+% ESTV
+% AFC TVA
+  account2 liabilities:current:vat:settlement
+
+# Impôts directs
+if
+% Service cantonal
+% Impôt
+% IFD
+  account2 liabilities:current:tax-provision
+
+# Loyer
+if
+% Loyer
+% Bailleur
+  account2 expenses:occupancy:rent
+
+# Assurances
+if
+% Helvetia
+% Bâloise
+% Vaudoise
+% Zurich
+  account2 expenses:insurance:property
+
+# Téléphone/internet
+if
+% Swisscom
+% Salt
+% Sunrise
+  account2 expenses:office:phone
+
+# SaaS
+if
+% Google
+% Adobe
+% Microsoft
+% Notion
+% Slack
+  account2 expenses:office:software
+
+# Restaurants
+if
+% Restaurant
+% Migros Restaurant
+% Coop Restaurant
+  account2 expenses:travel:meals
+
+# Carburant
+if
+% Shell
+% BP
+% Esso
+% Migrol
+  account2 expenses:vehicle:fuel
+
+# Transports
+if
+% SBB
+% CFF
+% FFS
+  account2 expenses:travel:transport
+
+# Virements internes
+if
+% Revolut
+  account2 assets:current:bank:revolut
+
+if
+% UBS
+  account2 assets:current:bank:ubs
+
+# ─── Ajouter tes propres règles par client/fournisseur ───

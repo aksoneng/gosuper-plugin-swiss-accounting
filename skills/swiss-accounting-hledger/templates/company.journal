@@ -1,0 +1,32 @@
+; ────────────────────────────────────────────────────────────
+;  {COMPANY_NAME} Sàrl — Journal principal {YEAR}
+;  IDE : CHE-xxx.xxx.xxx
+;  Siège : {CITY} ({CANTON})
+;  Méthode TVA : {effective | forfaitaire SSS [taux]}
+; ────────────────────────────────────────────────────────────
+;
+;  Structure des fichiers :
+;    ../commodities.journal     — devises et cours BNS
+;    ../accounts.journal        — plan comptable
+;    ./opening.journal          — bilan d'ouverture
+;    ./ubs.journal              — extraits UBS importés (CSV → hledger)
+;    ./postfinance.journal      — extraits PostFinance importés
+;    ./manual.journal           — écritures manuelles (factures, salaires)
+;    ./adjustments.journal      — écritures de clôture
+;
+;  Convention tags :
+;    client:<slug>              — identifiant du client
+;    fournisseur:<slug>         — identifiant du fournisseur
+;    projet:<slug>              — projet pour analytique
+;    tva:<methode-taux>         — voir lib/tva-mwst.md
+;    pj:<filename>              — référence pièce dans pieces/{YEAR}/
+;    partie-liee:oui            — pour CO 959c al. 1 ch. 4
+; ────────────────────────────────────────────────────────────
+
+include ../commodities.journal
+include ../accounts.journal
+include ./opening.journal
+include ./ubs.journal
+include ./postfinance.journal
+include ./manual.journal
+include ./adjustments.journal

@@ -1,0 +1,65 @@
+{
+  "invoiceNumber": "INV-2025-014",
+  "issueDate": "2025-12-15",
+  "dueDate": "2026-01-14",
+  "serviceDate": "Décembre 2025",
+  "lang": "fr",
+  "currency": "CHF",
+  "status": "draft",
+
+  "from": {
+    "company": "Acme Sàrl",
+    "uid": "CHE-123.456.789",
+    "vatNumber": "CHE-123.456.789 TVA",
+    "address": "Rue de la Gare 10",
+    "zip": "1003",
+    "city": "Lausanne",
+    "country": "CH",
+    "email": "contact@acme.ch",
+    "phone": "+41 21 555 00 00",
+    "website": "acme.ch",
+    "logoPath": "assets/logo.png"
+  },
+
+  "to": {
+    "company": "Client SA",
+    "uid": "CHE-987.654.321",
+    "address": "Rue du Marché 5",
+    "zip": "1204",
+    "city": "Genève",
+    "country": "CH",
+    "email": "ap@client.ch",
+    "contact": "Marie Dupont"
+  },
+
+  "items": [
+    {
+      "description": "Prestation de conseil — informatique et organisation",
+      "details": "Période du 1er au 15 décembre 2025",
+      "quantity": 8,
+      "unit": "heure",
+      "unitPrice": 180.00
+    }
+  ],
+
+  "vat": {
+    "rate": 8.1,
+    "method": "effective",
+    "note": null
+  },
+
+  "payment": {
+    "iban": "CH93 0076 2011 6238 5295 7",
+    "qrIban": null,
+    "bank": "UBS Switzerland AG",
+    "terms": "30 jours net",
+    "reference": null,
+    "additionalInfo": "Facture INV-2025-014"
+  },
+
+  "qrBill": true,
+
+  "exchangeRate": null,
+
+  "notes": null
+}

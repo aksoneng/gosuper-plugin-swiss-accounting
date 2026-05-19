@@ -1,0 +1,62 @@
+{
+  "invoiceNumber": "INV-2025-015",
+  "issueDate": "2025-12-15",
+  "dueDate": "2026-01-14",
+  "serviceDate": "Décembre 2025",
+  "lang": "fr",
+  "currency": "EUR",
+  "status": "draft",
+
+  "from": {
+    "company": "Acme Sàrl",
+    "uid": "CHE-123.456.789",
+    "vatNumber": "CHE-123.456.789 TVA",
+    "address": "Rue de la Gare 10",
+    "zip": "1003",
+    "city": "Lausanne",
+    "country": "CH",
+    "email": "contact@acme.ch"
+  },
+
+  "to": {
+    "company": "EU GmbH",
+    "uid": "DE123456789",
+    "address": "Hauptstrasse 12",
+    "zip": "10115",
+    "city": "Berlin",
+    "country": "DE",
+    "email": "ap@eu-gmbh.de"
+  },
+
+  "items": [
+    {
+      "description": "Conseil stratégique — pack mensuel",
+      "quantity": 1,
+      "unit": "forfait",
+      "unitPrice": 2000.00
+    }
+  ],
+
+  "vat": {
+    "rate": 0,
+    "method": "reverse-charge",
+    "note": "Reverse charge — TVA due par le destinataire (Directive 2006/112/CE art. 196)"
+  },
+
+  "payment": {
+    "iban": "CH93 0076 2011 6238 5295 7",
+    "bank": "UBS Switzerland AG",
+    "terms": "30 jours net"
+  },
+
+  "qrBill": false,
+
+  "exchangeRate": {
+    "source": "BNS",
+    "date": "2025-12-15",
+    "rate": 0.94,
+    "chfEquivalent": 1880.00
+  },
+
+  "notes": "Cours appliqué : EUR/CHF 0.9400 (BNS, 15.12.2025). Équivalent CHF 1'880.00."
+}
